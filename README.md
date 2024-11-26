@@ -1,120 +1,38 @@
-# AWGEI
- Web Application for Engineering School Management
-This project aims to develop a comprehensive web application for managing the administrative, academic, and operational activities of an engineering school. The application is designed to automate recurring tasks, centralize data, and provide secure access for various stakeholders including administration, faculty, students, and parents.
-
-Table of Contents
-Project Overview
-Features
-Technology Stack
-Installation Instructions
-Usage
-Contributing
-License
-Project Overview
-The goal of this project is to provide an integrated system that will streamline the management of school activities and improve overall efficiency. The application will support multiple user roles (administrators, teachers, students, and parents) and automate key processes such as course management, student information tracking, scheduling, and communication between stakeholders.
-
-Target Users
-Administration: Manage student records, course offerings, faculty, resources, and communications.
-Teachers: Manage courses, create and grade assignments, schedule office hours, and communicate with students.
-Students: Access personal information, grades, course schedules, and communicate with teachers and peers.
-Parents: Track their child's academic progress and school activities.
-Features
-The application will provide the following features:
-
-Student Management:
-
-Enrollment process
-Personal information management
-Academic performance tracking (grades, results)
-Teacher Management:
-
-Course scheduling and time-table management
-Class materials and syllabus management
-Assignment and grading management
-Course and Subject Management:
-
-Program structure management
-Course scheduling
-Course content and syllabus management
-Resource Management:
-
-Room scheduling (classrooms, labs)
-Equipment management (lab materials, etc.)
-Communication Tools:
-
-Notifications for important school events
-Messaging system for communication between teachers, students, and parents
-Technology Stack
-This web application will be built using the following technologies:
-
-Frontend:
-HTML5, CSS3, JavaScript (React or Vue.js)
-Responsive design (Bootstrap, Material UI)
-Backend:
-Node.js with Express.js (or Django/Flask if Python is preferred)
-Database:
-PostgreSQL (or MySQL, MongoDB for NoSQL option)
-Authentication & Security:
-JWT for user authentication and authorization
-Role-based access control (RBAC)
-Deployment:
-Docker for containerization
-Cloud hosting (AWS, Heroku, or DigitalOcean)
-Testing:
-Jest for unit and integration testing
-Cypress for end-to-end testing
-Installation Instructions
-Prerequisites
-Node.js and npm installed (for backend)
-PostgreSQL (or preferred database system)
-Git
-Steps to Install
-Clone the repository:
-
-bash
-Copier le code
-git clone https://github.com/username/AWGEI.git
-cd AWGEI
-Install dependencies:
-
-bash
-Copier le code
-npm install
-Set up the database:
-
-Create a PostgreSQL database and configure the connection settings in config/database.js
-Run database migrations to set up the required tables:
-bash
-Copier le code
-npm run migrate
-Start the development server:
-
-bash
-Copier le code
-npm start
-The application should now be accessible at http://localhost:3000
-
-Usage
-After installation, you can access the application through the web interface.
-Users can log in based on their role (Admin, Teacher, Student, Parent).
-Administrators can configure system settings, manage users, and view reports.
-Teachers can manage courses and grades.
-Students can view their schedules and academic progress.
-Parents can track their child's progress.
-Contributing
-Contributions are welcome! Please fork the repository and submit a pull request for any improvements, bug fixes, or new features.
-
-Steps to Contribute:
-Fork the repository.
-Create a new branch for your changes.
-Make your changes and commit them with clear messages.
-Submit a pull request to the main branch.
-License
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-
-
-
-
-
+Cahier des Charges 
+                       Application Web pour la Gestion d'une École d'Ingénieurs
+1. Introduction:
+L’objectif principal de ce projet est de concevoir et développer une application web intuitive et performante pour gérer les activités administratives, académiques et opérationnelles d’une école d’ingénieurs.
+Cette application permettra de :
+Automatiser les tâches récurrentes
+Centraliser les données essentielles, avec un accès unique et sécurisé.
+Faciliter les interactions entre les parties prenantes : administration, enseignants, étudiants et parents.
+2. Présentation du besoin:
+L’application devra couvrir les domaines fonctionnels suivants :
+2.1. Gestion des étudiants:
+Enregistrement des étudiants (inscriptions et renouvellements).
+Stockage et consultation des informations personnelles (coordonnées, situation académique).
+Suivi des performances académiques (notes, résultats, certificats).
+Historique des cursus et des activités de l’étudiant.
+suiver leur emplois du temps.
+2.2. Gestion des enseignants:
+Organisation des emplois du temps des enseignants.
+Gestion des cours (contenus pédagogiques, modules enseignés, supports en ligne).
+Suivi des évaluations et des rapports (examens corrigés, observations).
+envoyer un rapour directment a les parents
+2.3. Gestion des cours et matières
+Planification et mise à jour des programmes académiques.
+Création et modification des emplois du temps pour chaque semestre.
+Suivi des matières et des modules enseignés.
+2.4. Gestion des ressources
+Réservation et suivi de l’utilisation des salles de classe, laboratoires et matériel.
+Maintenance des équipements (état des ressources, calendriers de maintenance).
+2.5. Communication entre les parties prenantes
+Système de messagerie interne pour faciliter les échanges.
+Notifications automatiques (rappels d’échéances, modifications d’emplois du temps, événements).
+Portail d’accès pour les parents permettant un suivi des progrès des étudiants.
+3. Objectifs spécifiques du projet
+Simplification des processus administratifs grâce à une interface utilisateur conviviale.
+Gain de temps et efficacité dans la gestion des données grâce à l’automatisation.
+Sécurisation des informations sensibles, avec des droits d’accès adaptés à chaque profil utilisateur.
+Amélioration de la communication au sein de l’école, entre tous les acteurs impliqués.
 
