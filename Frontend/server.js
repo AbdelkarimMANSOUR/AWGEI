@@ -1,64 +1,99 @@
+// Load environment variables from .env file
+require('dotenv').config();
+
 const express = require('express');
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 const bodyParser = require('body-parser');
+const jwt = require('jsonwebtoken');
 
-// Initialize Express
+// Create Express app
 const app = express();
-const PORT = 3000;
 
 // Middleware
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json()); // for parsing application/json
 
-// MongoDB Connection
-const mongoURI = "mongodb+srv://abdelkarimmansouretu24:JdFAlqJ8TbSZCDc4@gynelink.8qmqx.mongodb.net/myDatabaseName?retryWrites=true&w=majority";
-mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => console.log("MongoDB connected successfully"))
-    .catch(err => console.error("MongoDB connection error:", err));
+// Connect to MongoDB using environment variable
+mongoose.connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+});
 
-// Schema and Model
-const UserSchema = new mongoose.Schema({
-    username: { type: String, required: true },
-    email: { type: String, required: true },
+// User Schema and Model
+const userSchema = new mongoose.Schema({
+    email: { type: String, required: true, unique: true },
+    username: { type: String, required: true, unique: true },
     password: { type: String, required: true }
 });
-const User = mongoose.model('User', UserSchema);
 
-// Routes
-// Login Route
-app.post('/login', async (req, res) => {
-    const { username, password } = req.body;
-    try {
-        const user = await User.findOne({ email: username, password });
-        if (user) {
-            res.status(200).send("Login successful!");
-        } else {
-            res.status(401).send("Invalid credentials");
-        }
-    } catch (error) {
-        res.status(500).send("Server error");
-    }
-});
+const User = mongoose.model('User', userSchema);
 
-// Signup Route
+// POST route for user signup
 app.post('/signup', async (req, res) => {
-    const { username, email, password, confirmPassword } = req.body;
+    const { email, username, password, confirmPassword } = req.body;
 
-    if (password !== confirmPassword) {
-        return res.status(400).send("Passwords do not match");
+    // Check if email or username already exists
+    const existingUser = await User.findOne({ $or: [{ email }, { username }] });
+    if (existingUser) {
+        return res.status(400).json({ error: "L'email ou le nom d'utilisateur existe déjà." });
     }
 
-    const newUser = new User({ username, email, password });
+    // Check if passwords match
+    if (password !== confirmPassword) {
+        return res.status(400).json({ error: "Les mots de passe ne correspondent pas." });
+    }
+
+    // Hash the password before saving
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create new user
+    const newUser = new User({ email, username, password: hashedPassword });
+
     try {
         await newUser.save();
-        res.status(201).send("User registered successfully");
+        res.status(200).json({ message: "Inscription réussie !" });
     } catch (error) {
-        res.status(500).send("Error registering user");
+        console.error(error);
+        res.status(500).json({ error: "Une erreur est survenue. Veuillez réessayer." });
     }
 });
 
-// Serve the frontend
-app.use(express.static('public'));
+// POST route for login
+app.post('/login', async (req, res) => {
+    const { username, password } = req.body;
 
-// Start Server
-app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+    // Check if user exists
+    const user = await User.findOne({ $or: [{ email: username }, { username }] });
+    if (!user) {
+        return res.status(400).json({ error: "Utilisateur non trouvé." });
+    }
+
+    // Compare the entered password with the hashed password
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+        return res.status(400).json({ error: "Mot de passe incorrect." });
+    }
+
+    // Generate a JWT token for the user
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+    // Send response
+    res.status(200).json({ message: "Connexion réussie !", token });
+});
+
+// Example of a protected route using JWT token
+app.get('/protected', (req, res) => {
+    const token = req.headers.authorization?.split(' ')[1]; // Bearer token
+    if (!token) return res.status(401).json({ error: 'Access Denied' });
+
+    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+        if (err) return res.status(403).json({ error: 'Invalid Token' });
+        res.status(200).json({ message: 'Protected Route Accessed', user });
+    });
+});
+
+// Start the server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
