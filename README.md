@@ -1,7 +1,11 @@
+<<<<<<< HEAD
 Achraf Rassou hajra
 
 
 Cahier des Charges 
+=======
+Cahier des Charges :
+>>>>>>> 887cf32a7122f15c8cb46445ac56b5d63bbbc7dc
                        Application Web pour la Gestion d'une École d'Ingénieurs
 1. Introduction:
 L’objectif principal de ce projet est de concevoir et développer une application web intuitive et performante pour gérer les activités administratives, académiques et opérationnelles d’une école d’ingénieurs.
