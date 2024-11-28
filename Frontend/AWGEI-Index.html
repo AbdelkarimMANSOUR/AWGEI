@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page de Connexion</title>
+    <!-- Lien vers le fichier CSS externe -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="login-container">
+        <div style="text-align: center;">
+            <!-- Remplace par ton chemin vers le logo -->
+            <img src="AWGEI_school.svg" alt="AWGEI Logo" style="max-width: 200px; margin-bottom: 20px;">
+        </div>
+        <h2>Connexion</h2>
+        <form action="/login" method="POST">
+            <div>
+                <label for="username">Nom d'utilisateur ou Email</label>
+                <input type="email" id="username" name="username" placeholder="Email" required>
+            </div>
+            <div>
+                <label for="password">Mot de passe</label>
+                <input type="password" id="password" name="password" placeholder="Mot de passe" required>
+            </div>
+            <button type="submit">Se connecter</button>
+        </form>
+        <div class="subscribe-container">
+            <button type="button" onclick="toggleSignupForm()">S'abonner</button>
+        </div>
+        <div class="error-message" style="display: none;">Identifiants incorrects. Veuillez réessayer.</div>
+    </div>
+
+    <!-- Formulaire d'inscription caché -->
+    <div class="signup-container" id="signupForm">
+        <h2>Inscription</h2>
+        <form action="/signup" method="POST">
+            <div>
+                <label for="email">Email</label>
+                <input type="email" id="signupEmail" name="email" placeholder="Email" required>
+            </div>
+            <div>
+                <label for="username">Nom d'utilisateur</label>
+                <input type="text" id="signupUsername" name="username" placeholder="Nom d'utilisateur" required>
+            </div>
+            <div>
+                <label for="password">Mot de passe</label>
+                <input type="password" id="signupPassword" name="password" placeholder="Mot de passe" required>
+            </div>
+            <div>
+                <label for="confirmPassword">Confirmer le mot de passe</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirmer le mot de passe" required>
+            </div>
+            <button type="submit">S'inscrire</button>
+        </form>
+    </div>
+
+    <script>
+        // Fonction pour afficher/masquer le formulaire d'inscription
+        function toggleSignupForm() {
+            const signupForm = document.getElementById("signupForm");
+            // Toggle la visibilité du formulaire
+            if (signupForm.style.display === "none" || signupForm.style.display === "") {
+                signupForm.style.display = "block";
+            } else {
+                signupForm.style.display = "none";
+            }
+        }
+
+        // Exemple de gestion d'erreur basique (à adapter selon le backend)
+        const form = document.querySelector("form");
+        form.addEventListener("submit", (event) => {
+            // Simuler un échec de connexion
+            event.preventDefault();  // Empêche la soumission réelle du formulaire
+            const errorMessage = document.querySelector(".error-message");
+            errorMessage.style.display = "block";
+        });
+    </script>
+</body>
+</html>
