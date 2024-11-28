@@ -32,6 +32,52 @@
     </div>
 
     <!-- Formulaire d'inscription caché -->
+    <style>
+        .login-container, .signup-container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-container div, .signup-container div {
+            margin-bottom: 15px;
+        }
+
+        .login-container input, .signup-container input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .login-container button, .signup-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .login-container button:hover, .signup-container button:hover {
+            background-color: #0056b3;
+        }
+
+        .subscribe-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .error-message {
+            color: red;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
     <div class="signup-container" id="signupForm">
         <h2>Inscription</h2>
         <form action="/signup" method="POST">
