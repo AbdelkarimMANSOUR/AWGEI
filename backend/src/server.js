@@ -2,14 +2,16 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
-import {User} from "./models/User";
 import jwt from "jsonwebtoken";
+import { User } from "./models/User.js";
+
+
 
 // Charger les variables d'environnement
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3003;
 
 // Middleware
 app.use(cors());
@@ -18,7 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Connexion à MongoDB
 mongoose
-  .connect(process.env.MONGO_URI!)
+  .connect(process.env.DB_URI || "")
   .then(() => console.log("MongoDB connecté"))
   .catch((err) => console.error("Erreur MongoDB:", err));
 
@@ -55,7 +57,10 @@ app.post("/login", async (req, res) => {
     if (!isMatch) return res.status(400).json({ error: "Mot de passe incorrect" });
 
     // Générer un token JWT
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET!, { expiresIn: "1h" });
+    if (!process.env.JWT_SECRET) {
+      return res.status(500).json({ error: "JWT secret is not defined" });
+    }
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
     res.status(200).json({ message: "Connexion réussie", token });
   } catch (err) {
     res.status(500).json({ error: "Erreur lors de la connexion" });
@@ -69,7 +74,10 @@ app.get("/protected", async (req, res) => {
   if (!token) return res.status(401).json({ error: "Accès non autorisé, token manquant" });
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!);
+    if (!process.env.JWT_SECRET) {
+      return res.status(500).json({ error: "JWT secret is not defined" });
+    }
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     res.status(200).json({ message: "Accès autorisé", user: decoded });
   } catch (err) {
     res.status(401).json({ error: "Token invalide ou expiré" });

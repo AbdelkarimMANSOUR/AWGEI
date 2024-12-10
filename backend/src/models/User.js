@@ -15,7 +15,7 @@ userSchema.pre("save", async function (next) {
 });
 
 // Méthode pour vérifier le mot de passe
-userSchema.methods.comparePassword = async function (candidatePassword: string) {
+userSchema.methods.comparePassword = async function (candidatePassword) {
   return bcrypt.compare(candidatePassword, this.password);
 };
 

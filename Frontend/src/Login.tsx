@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import "./Login.css";
 
 function LoginPage() {
@@ -13,16 +14,21 @@ function LoginPage() {
     setIsLoading(true); // Afficher un indicateur de chargement
 
     try {
-      const response = await axios.post("http://localhost:5000/login", {
+      const response = await axios.post("http://localhost:3003/login", {
         username,
         password,
       });
 
       // Si la connexion réussit
+
       console.log("Login successful:", response.data);
       alert("Connexion réussie !");
+
+
       // Enregistrer le token dans le stockage local (ou cookies)
+
       localStorage.setItem("token", response.data.token);
+
       // Redirection ou autre logique
     } catch (err: any) {
       console.error("Login failed:", err.response?.data?.error || err.message);
@@ -59,12 +65,23 @@ function LoginPage() {
             placeholder="Entrer votre mot de passe"
           />
         </div>
-        <button type="submit" className="login-button">
-          Se connecter
+        {error && <p className="error-message">{error}</p>}
+        <button type="submit" className="login-button" disabled={isLoading}>
+          {isLoading ? "Connexion en cours..." : "Se connecter"}
         </button>
+      </form>
+        <br/>
+        <button type="submit" className="login-button" disabled={isLoading}>
+        Créer un compte </button>
+        <br/>
+        
+      
+      <form>
         <p className="forgot-password">
           <a href="/forgot-password">Mot de passe oublié ?</a>
         </p>
+        
+
       </form>
     </div>
   );

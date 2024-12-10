@@ -10,10 +10,10 @@ function App() {
       <div>
         <Login />
       </div>
-      <h1> Developped by Vite + React</h1>
+      <h1>Application Web Gestion Ecole Ingenieur </h1>
       
       <p className="read-the-docs">
-        Application Web Gestion Ecole Ingenieur
+      Developped by Vite + React 
       </p>
     </>
   )
